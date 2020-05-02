@@ -1,39 +1,59 @@
-import React from "react";
+import React, { ReactChildren } from "react";
 import Helmet from "react-helmet";
-
+import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "src/components/header";
 import { Footer } from "src/components/footer";
 import { SwitchTransition, Transition } from "react-transition-group";
-import { Disclaimer } from "src/components/disclaimer";
 import { CartDrawer } from "src/components/cartDrawer";
-import { PasswordWrapper } from "./password";
+import "src/styles/main.css";
 
-const TRANSITION_DURATION = 400;
+const duration = 0.8;
+
+const variants = {
+  initial: {
+    y: "100vh"
+  },
+  enter: {
+    y: "0vh",
+    transition: {
+      duration,
+      // delay: duration,
+      when: "beforeChildren"
+    }
+  },
+  exit: {
+    y: "-100vh",
+    transition: { duration }
+  }
+};
+
+const TRANSITION_DURATION = 800;
 const TRANSITION_STYLES = {
   default: {
-    transition: `transform ${TRANSITION_DURATION}ms ease-in-out`
+    transition: `transform ${TRANSITION_DURATION}ms ease-in-out`,
+    transform: "translateY(0vh)"
   },
   entering: {
-    // opacity: 0,
     transform: "translateY(100vh)"
   },
   entered: {
-    // opacity: 1,
     transform: "translateY(0vh)"
   },
   exiting: {
-    // opacity: 0,
     transform: "translateY(-100vh)"
   },
   exited: {
-    // opacity: 0,
     transform: "translateY(-100vh)"
   }
 };
 
-import "src/styles/main.css";
-
-const Layout = ({ children, siteMetadata, location }: { children: any }) => {
+const Layout = ({
+  children,
+  location
+}: {
+  children: ReactChildren;
+  location: any;
+}) => {
   return (
     <React.Fragment>
       <Helmet title="Midway">
@@ -42,46 +62,63 @@ const Layout = ({ children, siteMetadata, location }: { children: any }) => {
           rel="stylesheet"
         />
       </Helmet>
-      <PasswordWrapper>
-        <div>
-          {/* <Disclaimer /> */}
-          <Header />
-          <CartDrawer />
-          {/* 
-          
-            Smooth transition credits to Ian Williams: https://github.com/dictions
-          
-          */}
-          {!/account/.test(location.pathname) ? (
-            <SwitchTransition>
-              <Transition
-                key={location.pathname}
-                mountOnEnter={true}
-                unmountOnExit={true}
-                appear={true}
-                timeout={TRANSITION_DURATION}
-              >
-                {status => (
-                  <div
-                    style={{
-                      ...TRANSITION_STYLES.default,
-                      ...TRANSITION_STYLES[status]
-                    }}
-                  >
-                    {children}
-                    <Footer />
-                  </div>
-                )}
-              </Transition>
-            </SwitchTransition>
-          ) : (
-            <div>
+      <div>
+        <Header />
+        <CartDrawer />
+        {!/account/.test(location.pathname) ? (
+          <AnimatePresence>
+            <motion.main
+              key={location.pathname}
+              style={{
+                position: "absolute",
+                width: "100%",
+                minHeight: "100vh"
+              }}
+              variants={variants}
+              initial="initial"
+              animate="enter"
+              exit="exit"
+            >
               {children}
               <Footer />
-            </div>
-          )}
-        </div>
-      </PasswordWrapper>
+            </motion.main>
+          </AnimatePresence>
+        ) : (
+          // <SwitchTransition>
+          //   <Transition
+          //     key={location.pathname}
+          //     // enter={true}
+          //     // exit={true}
+          //     // appear={true}
+          //     mountOnEnter={false}
+          //     unmountOnExit={false}
+          //     timeout={{
+          //       enter: TRANSITION_DURATION,
+          //       exit: TRANSITION_DURATION / 2
+          //     }}
+          //   >
+          //     {status => (
+          //       <div
+          //         style={{
+          //           position: "absolute",
+          //           width: "100%",
+          //           borderBottom: "2px solid red",
+          //           ...TRANSITION_STYLES.default,
+          //           ...TRANSITION_STYLES[status]
+          //         }}
+          //       >
+          //         {children}
+          //         <Footer />
+          //       </div>
+          //     )}
+          //   </Transition>
+          // </SwitchTransition>
+          <div>
+            {children}
+            <Footer />
+          </div>
+        )}
+      </div>
     </React.Fragment>
   );
 };

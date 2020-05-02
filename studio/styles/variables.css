@@ -1,32 +1,31 @@
 /* ./styles/variables.css */
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
 
 :root {
   /* Brand colors */
-  --body-bg: #191D21;
-  --body-text: #fff;
-  --component-bg: #242A2F;
-  --component-text-color: #fff;
-  --main-navigation-color: #041893;
+  --body-bg: #fafafa;
+  --body-text: #242a2f;
+  --component-bg: #fff;
+  --component-text-color: #242a2f;
+  --main-navigation-color: #f09f73;
 
-  --brand-primary: #041893;
+  --brand-primary: #f09f73;
   --brand-primary--inverted: #ffffff;
-  --brand-secondary: #ffa800;
-  --brand-secondary--inverted: #041893;
+  --brand-secondary: #e37c44;
+  --brand-secondary--inverted: #e37c44;
 
   /* Typography */
-  --font-family-sans-serif: 'Space Mono';
+  --font-family-sans-serif: "Space Mono";
   --font-size-base: 15px;
-  --text-color: var(--brand-primary--inverted);
+  --text-color: var(--component-text-color);
 
   --header-height: 3.3rem;
 
-  
   --default-button-color: var(--brand-primary);
-  
-  --default-button-color: white;
-  --default-button-color--inverted: var(--white);
+
+  --default-button-color: var(--brand-primary);
+  --default-button-color--inverted: var(--brand-secondary);
   --default-button-color--hover: white;
   --default-button-color--active: white;
 }

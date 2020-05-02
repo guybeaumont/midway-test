@@ -16,7 +16,7 @@ module.exports = {
     );
   },
   siteMetadata: {
-    title: `Midway-test`,
+    title: `Freddy B`,
     description: `Gatsby + Sanity + Shopify Repo`,
     author: `iamkevingreen`,
     password: true
